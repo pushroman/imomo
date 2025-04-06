@@ -1,0 +1,19 @@
+
+[
+  {
+    "name": "Retro FM",
+    "streamURL": "https://retro.amgradio.ru/Retro"
+  },
+  {
+    "name": "Europa Plus",
+    "streamURL": "https://ep256.hostingradio.ru:8052/europaplus256.mp3"
+  },
+  {
+    "name": "Radio Record",
+    "streamURL": "https://air.radiorecord.ru:805/rr_320"
+  },
+  {
+    "name": "DFM",
+    "streamURL": "https://dfm.hostingradio.ru:8000/dfm.mp3"
+  }
+]
