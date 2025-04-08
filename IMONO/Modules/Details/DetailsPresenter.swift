@@ -7,32 +7,48 @@
 
 import UIKit
 
+// MARK: - View Protocol
+protocol DetailsViewProtocol: AnyObject {
+    func success() // данные пришли
+    func failure(error: Error) // ошибка
+}
 
-//// MARK: - View Protocol
-//protocol MainMovieDitailViewProtocol: AnyObject {
-//    func showMovies(movie: Movies?)
-//}
-//
-//// MARK: - Presenter Protocol
-//protocol MainMovieDetailPresenterProtocol: AnyObject {
-//    init (view: MainMovieDitailViewProtocol, networkService: NetworkManager, movie: Movies?)
-//    func setMovies()
-//}
-//
-//// MARK: - Реализация протоколов
-//class MainMovieDetailPresenter: MainMovieDetailPresenterProtocol {
-//    private weak var view: MainMovieDitailViewProtocol?
-//        private let networkService: NetworkManager
-//        var movie: Movies?
-//    
-//    required init(view: any MainMovieDitailViewProtocol, networkService: NetworkManager, movie: Movies?) {
-//        self.view = view
-//        self.networkService = networkService
-//        self.movie = movie
-//    }
-//    
-//   public func setMovies() {
-//       self.view?.showMovies(movie: movie)
-//    }
-//
-//}
+// MARK: - Presenter Protocol
+protocol MainDitailsPresenterProtocol: AnyObject {
+    init (view: DetailsViewProtocol, networkService: NetworkManager)
+    var radioStations: [RadioStation] { get set }
+    var selectedRadio: RadioStation? { get set }
+    func setRadio()
+}
+
+// MARK: - Реализация протоколов
+class MainDetailPresenter: MainDitailsPresenterProtocol {
+
+    private weak var view: DetailsViewProtocol?
+        private let networkService: NetworkManager
+        var radioStations: [RadioStation] = []
+        var selectedRadio: RadioStation?
+    
+    required init(view: any DetailsViewProtocol, networkService: NetworkManager) {
+        self.view = view
+        self.networkService = networkService
+
+    }
+    
+   public func setRadio() {
+       networkService.reqest { [weak self] result in
+           guard let self = self else { return }
+           
+           DispatchQueue.main.async {
+               switch result {
+               case .success(let response):
+                   self.radioStations.append(contentsOf: response)
+                   self.view?.success()
+                   
+               case .failure(let error):
+                self.view?.failure(error: error)
+               }
+           }
+       }
+    }
+}

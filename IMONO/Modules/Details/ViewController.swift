@@ -4,22 +4,31 @@
 //
 //  Created by Роман Пушкарев on 05.04.2025.
 //
-
 import UIKit
 import AVFoundation
-
-class RadioPlayerViewController: UIViewController {
-    
+class DetailsViewController: UIViewController, DetailsViewProtocol {
     private var player: AVPlayer?
     private let stationLabel = UILabel()
     private let playPauseButton = UIButton(type: .system)
+    var presenter: MainDetailPresenter!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        presenter.setRadio()
         setupUI()
         setupAudioSession()
-        fetchRadioStream()
+    }
+    
+    
+    func success() {
+        print("Radiostantion: \(presenter.radioStations)")
+        guard let radiostanoion = presenter.radioStations.first else { return }
+        broadcast(radio: radiostanoion)
+    }
+    
+    func failure(error: any Error) {
+        error.localizedDescription
     }
     
     private func setupUI() {
@@ -51,11 +60,12 @@ class RadioPlayerViewController: UIViewController {
         }
     }
     
-    private func fetchRadioStream() {
-        guard let url = URL(string: "https://retro.amgradio.ru/Retro") else { return }
-        player = AVPlayer(url: url)
-        stationLabel.text = "Now Playing: Retro Radio"
-    }
+    func broadcast(radio: RadioStation?) {
+        guard let radio = radio, let url = URL(string: radio.streamURL ?? "no") else { return }
+          player = AVPlayer(url: url)
+          stationLabel.text = "Now Playing: \(radio.name)"
+      }
+      
     
     @objc private func togglePlayPause() {
         guard let player = player else { return }
@@ -74,4 +84,7 @@ class RadioPlayerViewController: UIViewController {
         super.viewDidDisappear(animated)
         // Обрабатываем уход в фон, если нужно
     }
+    
+    
 }
+

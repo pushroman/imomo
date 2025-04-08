@@ -11,6 +11,6 @@ protocol networkManagerProtocol {
     func mainRequest<T: Decodable>(component: URLComponents, complition: @escaping (Result<T, Error>) -> Void)
 }
 
-protocol MoviesNetworkProtocol {
-    func reqest(page: APIConstants, complition: @escaping (Result <RadioStation, Error>) -> Void)
+protocol RadioStationProtocol {
+    func reqest(complition: @escaping (Result <[RadioStation], Error>) -> Void)
 }

@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let rootViewController = RadioPlayerViewController()
+        let rootViewController = ModuleBilder.modulDetail()
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
     }

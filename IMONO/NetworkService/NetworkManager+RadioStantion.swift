@@ -7,12 +7,10 @@
 
 import Foundation
 
-extension NetworkManager: MoviesNetworkProtocol {
-    func reqest(page: APIConstants, complition: @escaping (Result<RadioStation, any Error>) -> Void) {
-        let url = URLFactory.urlComponent(page: page)
-        self.mainReqest(component: url, complition: complition)
+extension NetworkManager: RadioStationProtocol {
+    func reqest(complition: @escaping (Result<[RadioStation], Error>) -> Void) {
+        let url = URLFactory.urlComponent()
+        self.mainRequest(component: url, complition: complition)
     }
-    
-
 }
      

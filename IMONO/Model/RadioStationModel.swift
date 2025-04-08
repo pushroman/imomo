@@ -6,6 +6,6 @@
 //
 
 struct RadioStation: Decodable {
-    let name: String
-    let streamURL: String
+    let name: String?
+    let streamURL: String?
 }
