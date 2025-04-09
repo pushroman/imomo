@@ -14,3 +14,7 @@ protocol networkManagerProtocol {
 protocol RadioStationProtocol {
     func reqest(complition: @escaping (Result <[RadioStation], Error>) -> Void)
 }
+
+protocol urlComponentProtocol {
+    static func urlComponent() -> URLComponents
+}

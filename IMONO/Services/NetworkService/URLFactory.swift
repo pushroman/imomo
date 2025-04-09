@@ -7,7 +7,7 @@
 
 import Foundation
 
-class URLFactory {
+class URLFactory: urlComponentProtocol {
 
 static func urlComponent() -> URLComponents {
         var urlComponent = URLComponents()
